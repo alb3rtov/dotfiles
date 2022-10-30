@@ -1,1 +1,2 @@
-# dotfiles
+# Dotfiles
+![bspwm](.screenshots/bspwm.png)
