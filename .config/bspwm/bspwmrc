@@ -1,0 +1,52 @@
+#! /bin/sh
+
+pgrep -x sxhkd > /dev/null || sxhkd &
+
+$HOME/.config/polybar/launch.sh
+
+nitrogen --restore &
+picom -f &
+xsetroot -cursor_name left_ptr
+bluetoothctl power off
+rm ~/.config/polybar/scripts/active.tmp
+
+~/.config/bspwm/scripts/set_touchpad_tapping.sh
+#xinput set-prop 14 347 1
+#xinput set-prop 14 324 1
+#xinput set-prop 14 255 1
+#~/.config/bin/check-battery-status.sh &
+
+
+pkill dunst
+dunst -conf ~/.config/dunst/dunstrc &
+
+#bspc monitor -d I II III IV V VI VII VIII IX X
+#bspc monitor -d TERM NET DEV MEDIA
+
+#if [ $(xrandr -q | grep 'HDMI-1 connected' | wc -l) -eq 1 ]; then
+#bspc monitor eDP-1 -d TERM DEV
+#bspc monitor HDMI-1 -d NET MEDIA
+#else
+bspc monitor eDP-1 -d TERM NET DEV SOFT MEDIA
+#bspc monitor DP-1 -d TERM NET DEV MEDIA
+#fi
+
+bspc config border_width         1
+bspc config window_gap           6
+
+bspc config split_ratio          0.52
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+bspc rule -a spotify state=floating
+#bspc rule -a Gimp desktop='^8' state=floating follow=on
+#bspc rule -a Chromium desktop='^2'
+#bspc rule -a mplayer2 state=floating
+#bspc rule -a Kupfer.py focus=on
+#bspc rule -a Screenkey manage=off
+
+bspc config focus_follows_pointer true
+
+#xrandr --output DP-1 --primary
+xrandr --output DP-1 --same-as eDP-1
+xrandr --output eDP-1 --left-of HDMI-1
